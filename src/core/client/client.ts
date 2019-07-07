@@ -1,5 +1,5 @@
-import { Client as DiscordJsClient, TextChannel } from 'discord.js';
-import { Module } from '../module/module';
+import { Client as DiscordJsClient } from 'discord.js';
+import { ModuleBase } from '../module/module-base';
 import IClient from '../../types/client.interface';
 import { Event } from '../../common/events.enum';
 import { CommandOptions } from '../../common/decorators/command.decorator';
@@ -26,13 +26,32 @@ export class Client implements IClient {
 		}
 	}
 
-	initEvent(event: any, moduleInstance: Module, handler: () => any) {
+	/**
+	 * @description Initializes an onEvent listener with discordjs
+	 * @param event
+	 * @param moduleInstance
+	 * @param handler
+	 */
+	initEvent(event: any, moduleInstance: ModuleBase, handler: () => any): void {
 		this.discordJsClient.on(event.name, (...args) => {
-			handler.call(moduleInstance, ...args);
+			if (event.filter) {
+				if (event.filter(...args)) {
+					handler.call(moduleInstance, ...args);
+					return;
+				}
+			} else {
+				handler.call(moduleInstance, ...args);
+			}
 		});
 	}
 
-	initCommand(command: { value: string, options: CommandOptions }, moduleInstance: Module, handler: () => any) {
+	/**
+	 * @description Initializes a command with discordjs
+	 * @param command
+	 * @param moduleInstance
+	 * @param handler
+	 */
+	initCommand(command: { value: string, options: CommandOptions }, moduleInstance: ModuleBase, handler: () => any) {
 		if (!command.value) { return; }
 		const options: any = command.options;
 		const prefix = options && options.prefix ? options.prefix : moduleInstance.config.commandPrefix;
@@ -43,15 +62,5 @@ export class Client implements IClient {
 				handler.call(moduleInstance, message);
 			}
 		});
-	}
-
-	sendMessage(channel: TextChannel, response: string): boolean {
-		try {
-			channel.send(response);
-			return true;
-		} catch (err) {
-			// console.error(err); // TOOD Logger Class
-			return false;
-		}
 	}
 };

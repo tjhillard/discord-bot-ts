@@ -1,37 +1,13 @@
 # discord-bot-ts
 
-🤖 A TypeScript wrapper around Discord.js that enables building more scalable, maintainable, and declarative discord bots. Inspired by Nest.js, this library encourages SOLID application design.
+🤖 A TypeScript wrapper around Discord.js that enables the building of scalable, maintainable, and declarative discord bots. Inspired by Nest.js and Angular, this library encourages SOLID application design through the use of depency injection and the 
 
 - Decorators for declarative syntax 🛋
-- Dependency injection support 💉
+- Runtime Dependency injection support 💉
 - Simple database integration with TypeORM 💾
-- Modular structure for project scalability 🏗
+- Modular structure for better organizaed projects 🏗
 - Runtime exception handling 👷‍
 - Useful enums for event types 🎟
-
-```ts
-export default class MainModule extends Module {
-  constructor() {
-    super(new Client(process.env.DISCORD_TOKEN), { commandPrefix: '!' });
-    this.client.login();
-  }
-
-  // On !greet command
-  @Command('greet')
-  public greetUser(message: Message) {
-    this.client.sendMessage(
-      message.channel,
-      `Hi ${message.author.username}! 👋`
-    );
-  }
-
-  // On client ready
-  @On(Event.CLIENT_READY)
-  public onReady() {
-    console.log('Bot online! 🚀');
-  }
-}
-```
 
 ## Installation
 
@@ -39,9 +15,11 @@ export default class MainModule extends Module {
 yarn add discord-bot-ts
 ```
 
-## Basic Setup
+## Getting Started
 
 > index.ts (entry point)
+
+Your `index.ts` is the main entry point of your application. Your application consists of at least one "MainModule" and as many other sub-class modules as you want. You define them all here for runtime instantiation.
 
 ```ts
 const app = new App({
@@ -57,6 +35,8 @@ app.start();
 ```
 
 >main.module.ts
+
+Your main modules's primary responsibility should be authenticating your bot. Pass a `Client` instance with the token in the constructor and then call `login()` on the `this.client` property. The main module might also be a good place to add global on state change events, such as `Event.CLIENT_READY`.
 
 ```ts
 import { Module, Client, Command } from 'discord-bot-ts';
@@ -74,3 +54,81 @@ export default class MainModule extends Module {
   }
 }
 ```
+
+## Example Application
+
+Say you want to create a general purpose bot applicaiton with trivia questions and make some fun RNG stuff like random GIFs. Let's start by setting up our folder stucture.
+
+```
+. index.ts
+. main.module.ts
+. modules/
+  - trivia.module.ts
+  - random.module.ts
+. services/
+  - gif.service.ts
+```
+First, let's make our trivia module.
+
+>modules/trivia.module.ts
+```ts
+// imports...
+
+export default class TriviaModule extends MainModule {
+  private question: string;
+  private answer: string;
+
+  @Command('trivia')
+  public askTriviaQuestion(message: Message) {
+    this.question = 'what is the average airspeed velocity of an unladen swallow?';
+    this.answer = 'An African or European swallow?';
+
+    message.channel.sendMessage(this.question);
+  }
+
+  @On(Event.MESSAGE_CREATE)
+  public checkAttemptedTriviaAnswer(message: Message) {
+    if (message.content === this.answer) {
+      message.channel.sendMessage("I don't know that... RRAAHHHHHGHHHHGHGHHGHH");
+    }
+  }
+}
+```
+
+`Services` are singletons that should encapsulate implementaiton deatils of reusable functionality. Since getting a GIF from a 3rd party API might be something that we'll want to in many different modules down the road, it's a perfect use case for a Service. Let's make it.
+
+> services/gif.service.ts
+```ts
+class GifService {
+  public getRandomGif() {
+    // Hit some API, get random gif
+    return 'http://gph.is/S5UMDD';
+  }
+};
+
+export default new GifService();
+```
+
+Now the module.
+
+> modules/random.module.ts
+```ts
+// imports...
+@Inject(GifService)
+export default class RandomModule extends MainModule {
+  constructor(private readonly gifService) {
+    super();
+  }
+
+  @Command('gif')
+  sendRandomGif(message: Message) {
+    message.channel.sendMessage(this.gifService.getRandomGif());
+  }
+}
+```
+
+As you can see we are injecting our `GifService` dependency into our class at runtime instantiation via the `@Inject` decorator. We then set it as a `private readonly` property in the constructor and have access to it anywhere in our class via `this.gifService`. Cool!
+
+## Contributors
+
+* [TJ Hillard](https://github.com/tjhillard)

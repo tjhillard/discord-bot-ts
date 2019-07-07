@@ -1,7 +1,13 @@
-import { defineMethodMetadata } from "../../utils/define-metadata";
-
-export const On = (eventName: string, ...args: any[]) => {
+export const On = (eventName: string, filter?: (any) => boolean) => {
   return (target: any, key: string) => {
-    defineMethodMetadata(target, key, eventName, ...args);
+    Reflect.defineMetadata(
+      'on:event',
+      {
+        name: eventName,
+        filter,
+      },
+      target,
+      key,
+    );
   };
 };

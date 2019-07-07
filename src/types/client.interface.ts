@@ -1,4 +1,4 @@
-import { Module } from "../core/module/module";
+import { ModuleBase } from "../core/module/module-base";
 import { Client } from "discord.js";
 import { CommandOptions } from "../common/decorators/command.decorator";
 
@@ -16,15 +16,10 @@ export default interface IClient {
 	/**
 	 * Initializes an event listener
 	 */
-	initEvent(onMessage: string, moduleInstance: Module, handler: () => any);
+	initEvent(onMessage: string, moduleInstance: ModuleBase, handler: () => any);
 
 	/**
 	 * Initializes a command listener
 	 */
-	initCommand(command: { value: string, options: CommandOptions }, moduleInstance: Module, handler: () => any);
-
-	/**
-	 * Should send a message
-	 */
-	sendMessage: (messageObject: any, response: string) => boolean;
+	initCommand(command: { value: string, options: CommandOptions }, moduleInstance: ModuleBase, handler: () => any);
 };

@@ -1,7 +1,7 @@
 import IClient from "../../types/client.interface";
 import { getPropertiesOfObjectPrototype } from "../../utils";
 
-export class Module {
+export class ModuleBase {
 	constructor(
 		protected readonly client: IClient,
 		public readonly config?: { commandPrefix?: string },
