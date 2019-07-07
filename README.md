@@ -49,7 +49,7 @@ export default class MainModule extends Module {
 
   @Command('ping')
   onPing(message: Message) {
-    this.client.sendMessage(message.channel, 'pong!');
+    message.channel.sendMessage('pong');
   }
 }
 ```
