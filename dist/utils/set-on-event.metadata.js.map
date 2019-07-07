@@ -1,1 +1,0 @@
-{"version":3,"file":"set-on-event.metadata.js","sourceRoot":"","sources":["../../src/utils/set-on-event.metadata.ts"],"names":[],"mappings":";;AAAa,QAAA,kBAAkB,GAAG,CACjC,MAAW,EACX,GAAW,EACX,SAAiB,EACjB,GAAG,IAAI,EACN,EAAE;IACH,OAAO,CAAC,cAAc,CACrB,UAAU,EACV;QACC,IAAI,EAAE,SAAS;QACf,IAAI,EAAE,IAAI;KACV,EACD,MAAM,EACN,GAAG,CACH,CAAC;AACH,CAAC,CAAC"}

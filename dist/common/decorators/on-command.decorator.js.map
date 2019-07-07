@@ -1,1 +1,0 @@
-{"version":3,"file":"on-command.decorator.js","sourceRoot":"","sources":["../../../src/common/decorators/on-command.decorator.ts"],"names":[],"mappings":";;AAIa,QAAA,SAAS,GAAG,CAAC,OAAe,EAAE,OAA0B,EAAE,EAAE;IACvE,OAAO,CAAC,MAAW,EAAE,GAAW,EAAE,EAAE;QAClC,OAAO,CAAC,cAAc,CACvB,YAAY,EACZ;YACC,KAAK,EAAE,OAAO;YACd,OAAO;SACP,EACD,MAAM,EACN,GAAG,CACH,CAAC;IACF,CAAC,CAAC;AACJ,CAAC,CAAC"}
