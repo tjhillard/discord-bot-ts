@@ -1,7 +1,10 @@
 # discord-bot-ts
 
+🤖 A TypeScript wrapper around Discord.js that enables building more scalable, maintainable, and declarative discord bots. Inspired by Nest.js, this library encourages SOLID application design.
+
 - Decorators for declarative syntax 🛋
 - Dependency injection support 💉
+- Simple database integration with TypeORM 💾
 - Modular structure for project scalability 🏗
 - Runtime exception handling 👷‍
 - Useful enums for event types 🎟
@@ -10,15 +13,10 @@
 export default class MainModule extends Module {
   constructor() {
     super(new Client(process.env.DISCORD_TOKEN), { commandPrefix: '!' });
-
     this.client.login();
   }
 
-  /**
-   *
-   * On !greet command
-   *
-   */
+  // On !greet command
   @Command('greet')
   public greetUser(message: Message) {
     this.client.sendMessage(
@@ -27,11 +25,7 @@ export default class MainModule extends Module {
     );
   }
 
-  /**
-   *
-   * On client ready
-   *
-   */
+  // On client ready
   @On(Event.CLIENT_READY)
   public onReady() {
     console.log('Bot online! 🚀');
