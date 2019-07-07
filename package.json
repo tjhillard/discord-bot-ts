@@ -1,0 +1,23 @@
+{
+  "name": "node-bot-framework",
+  "version": "0.0.0",
+  "description": "A TypeScript wrapper around Discord.js that enables building more scalable, maintainable, and declarative discord bots.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "TJ Hillard",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.0.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.12",
+    "typescript": "^3.5.2"
+  }
+}
