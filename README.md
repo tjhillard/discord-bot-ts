@@ -1,6 +1,6 @@
 # discord-bot-ts
 
-🤖 A TypeScript wrapper around Discord.js that enables the building of scalable declarative discord bots. Inspired by Nest.js and Angular, this library encourages SOLID application design.
+🤖 A TypeScript wrapper around Discord.js that enables the building of large, scalable discord bots. Inspired by Nest.js and Angular, this library encourages SOLID application design through the use of metadata reflection, runtime dependency injection, and the service provider pattern.
 
 - Decorators for declarative syntax 🛋
 - Runtime Dependency injection support 💉
