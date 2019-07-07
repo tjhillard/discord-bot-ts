@@ -4,11 +4,12 @@
 - Dependency injection support 💉
 - Modular structure for project scalability 🏗
 - Runtime exception handling 👷‍
+- Useful enums for event types 🎟
 
 ```ts
 export default class MainModule extends Module {
   constructor() {
-    super(new Client(process.env.DISCORD_TOKEN), {s commandPrefix: '!' });
+    super(new Client(process.env.DISCORD_TOKEN), { commandPrefix: '!' });
 
     this.client.login();
   }
