@@ -1,11 +1,10 @@
 # discord-bot-ts
 
-🤖 A TypeScript wrapper around Discord.js that enables the building of large, scalable discord bots. Inspired by Nest.js and Angular, this library encourages SOLID application design through the use of metadata reflection, runtime dependency injection, and the service provider pattern.
+🤖 A TypeScript wrapper around Discord.js that enables the building of large, scalable discord bots. Inspired by Nest.js and Angular, this library encourages SOLID object-oriented design through the use of runtime dependency injection, metadata reflection, and the service provider pattern.
 
 - Decorators for declarative syntax 🛋
 - Runtime Dependency injection support 💉
 - Modular structure for better organizaed projects 🏗
-- Runtime exception handling 👷‍
 - Useful enums for event types 🎟
 
 ## Installation
@@ -49,7 +48,7 @@ export default class MainModule extends Module {
 
   @Command('ping')
   onPing(message: Message) {
-    message.channel.sendMessage('pong');
+    message.channel.send('pong');
   }
 }
 ```
@@ -82,13 +81,13 @@ export default class TriviaModule extends MainModule {
     this.question = 'what is the average airspeed velocity of an unladen swallow?';
     this.answer = 'An African or European swallow?';
 
-    message.channel.sendMessage(this.question);
+    message.channel.send(this.question);
   }
 
   @On(Event.MESSAGE_CREATE)
   public checkAttemptedTriviaAnswer(message: Message) {
     if (message.content === this.answer) {
-      message.channel.sendMessage("I don't know that... RRAAHHHHHGHHHHGHGHHGHH");
+      message.channel.send("I don't know that... RRAAHHHHHGHHHHGHGHHGHH");
     }
   }
 }
@@ -121,13 +120,9 @@ export default class RandomModule extends MainModule {
 
   @Command('gif')
   sendRandomGif(message: Message) {
-    message.channel.sendMessage(this.gifService.getRandomGif());
+    message.channel.send(this.gifService.getRandomGif());
   }
 }
 ```
 
 As you can see we are injecting our `GifService` dependency into our class at runtime instantiation via the `@Inject` decorator. We then set it as a `private readonly` property in the constructor and have access to it anywhere in our class via `this.gifService`. Cool!
-
-## Contributors
-
-* [TJ Hillard](https://github.com/tjhillard)

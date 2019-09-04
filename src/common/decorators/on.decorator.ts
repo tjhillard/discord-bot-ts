@@ -7,7 +7,7 @@ export const On = (eventName: string, filter?: (any) => boolean) => {
         filter,
       },
       target,
-      key,
+      key
     );
   };
 };

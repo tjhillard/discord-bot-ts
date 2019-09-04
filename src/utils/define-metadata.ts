@@ -1,16 +1,16 @@
 export const defineMethodMetadata = (
-	target: any,
-	key: string,
-	eventName: string,
-	...args
+  target: any,
+  key: string,
+  eventName: string,
+  ...args
 ) => {
-	Reflect.defineMetadata(
-		'on:event',
-		{
-			name: eventName,
-			args: args,
-		},
-		target,
-		key,
-	);
+  Reflect.defineMetadata(
+    'on:event',
+    {
+      name: eventName,
+      args: args,
+    },
+    target,
+    key
+  );
 };

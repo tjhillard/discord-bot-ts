@@ -1,23 +1,23 @@
-import IModule from "../../types/module.interface";
+import { ApplicationConfig } from '../../types/application-config.type';
 
-export type ApplicationConfig = {
-	modules: IModule[];
-	onStart?: (app: App) => void;
-};
+export class App {
+  constructor(private config: ApplicationConfig) {}
 
-export default class App {
-	constructor(private config: ApplicationConfig) {}
+  public start() {
+    for (const module of this.config.modules) {
+      try {
+        const toInject =
+          Reflect.getMetadata('toInject', module.prototype) || [];
+        try {
+          new module(...toInject);
+        } catch (err) {
+          console.error(err);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-	public start() {
-		for (const module of this.config.modules) {
-			try {
-				const toInject = Reflect.getMetadata('toInject', module.prototype) || [];
-				new module(...toInject);
-			} catch (err) {
-				console.error(err);
-			}
-		}
-
-		this.config.onStart(this);
-	}
-};
+    this.config.onStart(this);
+  }
+}
